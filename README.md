@@ -37,7 +37,8 @@ This program is distributed under the GNU General Public License (GPL), it is di
 ## Prerequisites
 
 1. Latency Ninja requires the following packages installed on the system, however it will also attempt to dnf install/apt install missing packages:
-      - kmod, iproute, kernel-modules-extra, iproute-tc, iputils, curl, git, jq.
+      - Centos|Fedora|RedHat: kmod, iproute, kernel-modules-extra, iproute-tc, iputils, curl, git, jq
+      - Debian|Ubuntu: kmod, iproute2, inetutils-ping, curl, git, jq
 2. `root` or `sudo` privileges are required.
 
 ## Compatibility
