@@ -100,3 +100,42 @@ rollback_everything() {
         rollback_done=1
     fi
 }
+
+# Function to display available network interfaces
+show_available_interfaces() {
+    echo ""
+    echo "Available network interfaces:"
+    echo "=============================="
+    
+    # Use ip command if available (preferred method)
+    if command -v ip >/dev/null 2>&1; then
+        interfaces=$(ip -o link show | awk -F': ' '{print $2}' | grep -v '^lo$' | sed 's/@.*$//' | sort)
+    # Fallback to parsing /sys/class/net
+    elif [ -d "/sys/class/net" ]; then
+        interfaces=$(ls /sys/class/net/ | grep -v '^lo$' | sort)
+    # Last resort: try ifconfig
+    elif command -v ifconfig >/dev/null 2>&1; then
+        interfaces=$(ifconfig -a | grep '^[a-zA-Z]' | awk '{print $1}' | sed 's/:$//' | grep -v '^lo$' | sort)
+    else
+        echo "Unable to detect network interfaces automatically."
+        echo "Please check your system manually using 'ip link' or 'ifconfig'"
+        return 1
+    fi
+    
+    if [ -n "$interfaces" ]; then
+        for interface in $interfaces; do
+            # Get interface status
+            if command -v ip >/dev/null 2>&1; then
+                status=$(ip link show "$interface" 2>/dev/null | grep -o 'state [A-Z]*' | cut -d' ' -f2)
+                echo "  $interface (${status:-UNKNOWN})"
+            else
+                echo "  $interface"
+            fi
+        done
+    else
+        echo "  No network interfaces found (excluding loopback)"
+    fi
+    
+    echo ""
+}
+

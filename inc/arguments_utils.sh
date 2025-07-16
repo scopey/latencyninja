@@ -39,6 +39,7 @@ get_arguments() {
             --json) json_file="$2"; shift 2 ;;
             --update) update; exit 0 ;;
             --debug) debug=true; shift ;;
+            --show-interfaces) show_available_interfaces; exit 0 ;;
             *) echo "Invalid option: $1"; exit 1 ;;
         esac
     done
