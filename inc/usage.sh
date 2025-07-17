@@ -93,7 +93,7 @@ usage() {
     echo
     echo "  --json            Path to JSON file."
     echo "  --update          Updates to the latest version."
-    echo "  --show-interfaces Show all avaiable interfaces on the system."
+    echo "  --show-interfaces Show all available interfaces on the system."
     echo
     exit 0
 }
